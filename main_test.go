@@ -73,7 +73,7 @@ func TestWriteMetricsToInfluxDB(t *testing.T) {
 	rabbitmqwriter := NewRabbitMQWriter()
 	rabbitmqwriter.Init()
 	metrics.WriteJSONOnce(metrics.DefaultRegistry, rabbitmqwriter)
-	influxURL   := "http://localhost:8086"
+	influxURL := "http://localhost:8086"
 	influxDB, err := client.NewHTTPClient(client.HTTPConfig{
 		Addr:     influxURL,
 		Username: "root",
