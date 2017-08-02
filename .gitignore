@@ -3,5 +3,5 @@
 *.*.sw*
 conf/migrations.yml
 *.test
-fm-metrics-service
+plutus-metrics
 ;
