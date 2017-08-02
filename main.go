@@ -82,7 +82,7 @@ func (r *RabbitMQ) Listen() error {
 	r.rmqc = ch
 
 	err = ch.ExchangeDeclare(
-		"fm-metrics", // name
+		"plutus-metrics", // name
 		"topic",      // type
 		true,         // durable
 		false,        // auto-deleted
@@ -103,7 +103,7 @@ func (r *RabbitMQ) Listen() error {
 	err = ch.QueueBind(
 		q.Name,       // queue name
 		"#",          // routing key
-		"fm-metrics", // exchange
+		"plutus-metrics", // exchange
 		false,
 		nil)
 

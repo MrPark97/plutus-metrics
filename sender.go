@@ -4,11 +4,13 @@ import (
 	"github.com/streadway/amqp"
 )
 
+// declare useful struct for writing metrics
 type RabbitMQWriter struct {
 	*amqp.Connection
 	*amqp.Channel
 }
 
+// constructor for RabbitMQWriter
 func NewRabbitMQWriter() *RabbitMQWriter {
 	conn, err := amqp.Dial(rabbitMQURL)
 	if err != nil {
@@ -23,10 +25,11 @@ func NewRabbitMQWriter() *RabbitMQWriter {
 	return &RabbitMQWriter{conn, ch}
 }
 
+// declare method Write() to realize Writer interface
 func (r *RabbitMQWriter) Write(p []byte) (n int, err error) {
 	err = r.Channel.Publish(
-		"fm-metrics",                // exchange
-		"fm-metrics-service.system", // routing key
+		"plutus-metrics",                // exchange
+		"plutus-metrics-service.system", // routing key
 		false, // mandatory
 		false, // immediate
 		amqp.Publishing{
@@ -36,9 +39,10 @@ func (r *RabbitMQWriter) Write(p []byte) (n int, err error) {
 	return len(p), err
 }
 
+// declare initialization method
 func (r *RabbitMQWriter) Init() {
 	err := r.Channel.ExchangeDeclare(
-		"logs_topic", // name
+		"plutus-metrics", // name
 		"topic",      // type
 		true,         // durable
 		false,        // auto-deleted
