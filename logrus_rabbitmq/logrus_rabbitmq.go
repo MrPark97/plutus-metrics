@@ -2,7 +2,6 @@ package logrus_rabbitmq
 
 import (
 	"github.com/sirupsen/logrus"
-	"log"
 )
 
 // RabbitMQHook to send logs via RabbitMQ
@@ -18,34 +17,29 @@ func NewRabbitMQHook() *RabbitMQHook {
 }
 
 func (hook *RabbitMQHook) Fire(entry *logrus.Entry) error {
-	line, err := entry.String()
+	line := entry.Message
 	byteline := []byte(line)
-	if err != nil {
-		log.Println("Unable to read entry, " + err.Error())
-	}
 
 	switch entry.Level {
 	case logrus.PanicLevel:
-		_, err = hook.Writer.Write(byteline)
-		return err
+		hook.Writer.Level = "debug"
 	case logrus.FatalLevel:
-		_, err = hook.Writer.Write(byteline)
-		return err
+		hook.Writer.Level = "fatal"
 	case logrus.ErrorLevel:
-		_, err = hook.Writer.Write(byteline)
-		return err
+		hook.Writer.Level = "error"
 	case logrus.WarnLevel:
-		_, err = hook.Writer.Write(byteline)
-		return err
+		hook.Writer.Level = "warn"
 	case logrus.InfoLevel:
-		_, err = hook.Writer.Write(byteline)
-		return err
+		hook.Writer.Level = "info"
 	case logrus.DebugLevel:
-		_, err = hook.Writer.Write(byteline)
-		return err
+		hook.Writer.Level = "debug"
 	default:
 		return nil
 	}
+
+	_, err := hook.Writer.Write(byteline)
+
+	return err
 }
 
 func (hook *RabbitMQHook) Levels() []logrus.Level {

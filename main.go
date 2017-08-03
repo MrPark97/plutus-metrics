@@ -7,10 +7,10 @@ import (
 
 	"plutus-metrics/logrus_rabbitmq"
 
-	"github.com/sirupsen/logrus"
 	"github.com/influxdata/influxdb/client/v2"
 	"github.com/rcrowley/go-metrics"
 	"github.com/rubyist/circuitbreaker"
+	"github.com/sirupsen/logrus"
 	"github.com/streadway/amqp"
 )
 
@@ -85,12 +85,12 @@ func (r *RabbitMQ) Listen() error {
 
 	err = ch.ExchangeDeclare(
 		"plutus-metrics", // name
-		"topic",      // type
-		true,         // durable
-		false,        // auto-deleted
-		false,        // internal
-		false,        // no-wait
-		nil,          // arguments
+		"topic",          // type
+		true,             // durable
+		false,            // auto-deleted
+		false,            // internal
+		false,            // no-wait
+		nil,              // arguments
 	)
 
 	q, err := ch.QueueDeclare(
@@ -103,8 +103,8 @@ func (r *RabbitMQ) Listen() error {
 	)
 
 	err = ch.QueueBind(
-		q.Name,       // queue name
-		"#",          // routing key
+		q.Name,           // queue name
+		"#",              // routing key
 		"plutus-metrics", // exchange
 		false,
 		nil)

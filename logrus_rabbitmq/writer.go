@@ -12,6 +12,7 @@ const (
 type RabbitMQWriter struct {
 	*amqp.Connection
 	*amqp.Channel
+	Level string
 }
 
 func NewRabbitMQWriter() *RabbitMQWriter {
@@ -25,13 +26,13 @@ func NewRabbitMQWriter() *RabbitMQWriter {
 		log.Fatal(err)
 	}
 
-	return &RabbitMQWriter{conn, ch}
+	return &RabbitMQWriter{Connection: conn, Channel: ch}
 }
 
 func (r *RabbitMQWriter) Write(p []byte) (n int, err error) {
 	err = r.Channel.Publish(
 		"plutus-logger",    // exchange
-		"plutus-metrics", // routing key
+		"plutus-metrics"+"."+r.Level, // routing key
 		false,        // mandatory
 		false,        // immediate
 		amqp.Publishing{
