@@ -3,12 +3,6 @@
 	"ignore": "test",
 	"package": [
 		{
-			"checksumSHA1": "BCmjskha6fhGDUxvgayGZnF8RUc=",
-			"path": "github.com/Sirupsen/logrus",
-			"revision": "181d419aa9e2223811b824e8f0b4af96f9ba9302",
-			"revisionTime": "2017-07-28T07:42:14Z"
-		},
-		{
 			"checksumSHA1": "u8n5T1RWE2k2jkddsmQ1SMtssms=",
 			"path": "github.com/cenk/backoff",
 			"revision": "61153c768f31ee5f130071d08fc82b85208528de",
@@ -49,6 +43,12 @@
 			"path": "github.com/rubyist/circuitbreaker",
 			"revision": "2074adba5ddc7d5f7559448a9c3066573521c5bf",
 			"revisionTime": "2017-03-30T19:36:47Z"
+		},
+		{
+			"checksumSHA1": "I5DMrLM0FpmvG81tAWZ3zoydBIo=",
+			"path": "github.com/sirupsen/logrus",
+			"revision": "181d419aa9e2223811b824e8f0b4af96f9ba9302",
+			"revisionTime": "2017-07-28T07:42:14Z"
 		},
 		{
 			"checksumSHA1": "3XsmaR3i5euGHpt150DerScyOco=",

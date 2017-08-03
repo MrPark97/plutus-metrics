@@ -5,7 +5,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Sirupsen/logrus"
+	"plutus-metrics/logrus_rabbitmq"
+
+	"github.com/sirupsen/logrus"
 	"github.com/influxdata/influxdb/client/v2"
 	"github.com/rcrowley/go-metrics"
 	"github.com/rubyist/circuitbreaker"
@@ -16,7 +18,7 @@ import (
 var (
 	rabbitMQURL = "amqp://guest:guest@localhost:5672"
 	influxURL   = "http://localhost:8086"
-	log         = logrus.New()
+	log         *logrus.Logger
 )
 
 // Define rabbitMQ struct for receiving messages with consecutive circuit breaker
@@ -146,7 +148,6 @@ func (r *RabbitMQ) Listen() error {
 
 		for d := range msgs {
 			CurrentMessage = d
-			log.Infof(" [x] %s\n %s\n\n\n", d.RoutingKey, d.Body)
 
 			// write metrics to influxdb send error or acknnowledge
 			err := writeMetricsToInfluxDB(d.Body, d.RoutingKey, r.ErrChan, cb)
@@ -175,7 +176,16 @@ func (e ErrConnect) Error() string {
 	return string(e)
 }
 
+// initialize logger which will send all logs to rabbitmq
+func init() {
+	log = logrus.New()
+	log.Hooks.Add(logrus_rabbitmq.NewRabbitMQHook())
+}
+
 func main() {
+	// send log about service starting
+	log.Warnln("service started")
+
 	// init rabbitMQ circuit breaker
 	// init event listener
 	// Subscribe to the circuit breaker events
